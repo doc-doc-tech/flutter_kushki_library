@@ -1,6 +1,7 @@
 package com.kushkipagos.flutter_kushki_library
 
 import androidx.annotation.NonNull;
+import com.kushkipagos.android.*
 
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.plugin.common.MethodCall
@@ -42,8 +43,43 @@ public class FlutterKushkiLibraryPlugin: FlutterPlugin, MethodCallHandler {
   override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: Result) {
     if (call.method == "getPlatformVersion") {
       result.success("Android ${android.os.Build.VERSION.RELEASE}")
-    } else {
-      result.notImplemented()
+    } else if (call.method == "requestSubscriptionToken") {
+      val publicMerchantId: String? = call.argument<String>("publicMerchantId")
+      val name: String? = call.argument<String>("name")
+      val number: String? = call.argument<String>("number")
+      val cvv: String? = call.argument<String>("cvv")
+      val expiryMonth: String? = call.argument<String>("expiryMonth")
+      val expiryYear: String? = call.argument<String>("expiryYear")
+      val currency: String = call.argument<String>("currency") ?: "USD"
+      val environment: String = call.argument<String>("environment") ?: "TESTING"
+
+      val env: KushkiEnvironment
+
+      env = when(environment){
+        "CI"-> KushkiEnvironment.CI
+        "PRODUCTION"-> KushkiEnvironment.PRODUCTION
+        "QA"-> KushkiEnvironment.QA
+        "PRODUCTION_REGIONAL"-> KushkiEnvironment.PRODUCTION_REGIONAL
+        "STAGING"-> KushkiEnvironment.STAGING
+        "UAT_REGIONAL"-> KushkiEnvironment.UAT_REGIONAL
+        else -> KushkiEnvironment.TESTING
+      }
+
+      var code =  "ERROR"
+      var response: Transaction? = null
+
+      if (name != null && number != null && cvv != null && expiryMonth != null && expiryYear != null && publicMerchantId != null) {
+        val kushki = Kushki(publicMerchantId, currency, env, false)
+        val card = Card(name, number, cvv, expiryMonth, expiryYear)
+        try {
+          response = kushki.requestSubscriptionToken(card)
+          code = "SUCCESS"
+        } catch (e: KushkiException) {
+          result.error(e.message, e.toString(), e.printStackTrace())
+        }
+      }
+      val responseData  = mapOf<String, Any?>(code to response)
+      result.success(responseData)
     }
   }
 
