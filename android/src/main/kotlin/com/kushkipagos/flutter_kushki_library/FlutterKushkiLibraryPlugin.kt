@@ -1,5 +1,6 @@
 package com.kushkipagos.flutter_kushki_library
 
+import android.os.AsyncTask
 import androidx.annotation.NonNull;
 import com.kushkipagos.android.*
 
@@ -65,23 +66,35 @@ public class FlutterKushkiLibraryPlugin: FlutterPlugin, MethodCallHandler {
         else -> KushkiEnvironment.TESTING
       }
 
-      var code =  "ERROR"
-      var response: Transaction? = null
-
       if (name != null && number != null && cvv != null && expiryMonth != null && expiryYear != null && publicMerchantId != null) {
         val kushki = Kushki(publicMerchantId, currency, env, false)
         val card = Card(name, number, cvv, expiryMonth, expiryYear)
         try {
-          response = kushki.requestSubscriptionToken(card)
-          code = "SUCCESS"
+          (object: AsyncTask<Void, Void, Transaction?>() {
+
+            override fun doInBackground(vararg p0: Void): Transaction? {
+              return kushki.requestSubscriptionToken(card)
+            }
+
+            override fun onPostExecute(response: Transaction?) {
+              val isSuccessful = response?.isSuccessful ?: false
+              val responseCode = response?.code ?: ""
+              val token = response?.token ?: ""
+              val message = response?.message ?: ""
+              var code = if (isSuccessful && responseCode == "000") "SUCCESS" else "ERROR"
+              val responseData  = mapOf<String, Any?>("code" to code, "token" to token, "message" to message)
+              result.success(responseData)
+            }
+          }).execute()
         } catch (e: KushkiException) {
-          println("---------------error message")
+          println("--------------- kushki error message")
           println(e.message)
-          result.error(e.message, e.toString(), e.printStackTrace())
+          val responseData  = mapOf<String, Any?>("code" to "ERROR", "token" to "", "message" to e.message)
+          result.success(responseData)
         }
       }
-      val responseData  = mapOf<String, Any?>(code to response)
-      result.success(responseData)
+
+
     }
   }
 
