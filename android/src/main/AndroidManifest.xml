@@ -1,3 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
   package="com.kushkipagos.flutter_kushki_library">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
 </manifest>

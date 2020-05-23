@@ -15,6 +15,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   String _platformVersion = 'Unknown';
+  String _responseCode = 'Unknown';
 
   @override
   void initState() {
@@ -25,10 +26,14 @@ class _MyAppState extends State<MyApp> {
   // Platform messages are asynchronous, so we initialize in an async method.
   Future<void> initPlatformState() async {
     String platformVersion;
+    dynamic response;
     // Platform messages may fail, so we use a try/catch PlatformException.
     try {
       platformVersion = await FlutterKushkiLibrary.platformVersion;
+      response = await FlutterKushkiLibrary.requestSubscriptionToken();
+      print('response: $response');
     } on PlatformException {
+      print('error');
       platformVersion = 'Failed to get platform version.';
     }
 
@@ -39,6 +44,12 @@ class _MyAppState extends State<MyApp> {
 
     setState(() {
       _platformVersion = platformVersion;
+      try {
+        _responseCode = response?.code ?? 'aja unknown';
+      } catch(e) {
+        print('error 2');
+        print('error 2: $e');
+      }
     });
   }
 
@@ -50,7 +61,7 @@ class _MyAppState extends State<MyApp> {
           title: const Text('Plugin example app'),
         ),
         body: Center(
-          child: Text('Running on: $_platformVersion\n'),
+          child: Text('Running on: $_platformVersion\n responseCode: $_responseCode'),
         ),
       ),
     );

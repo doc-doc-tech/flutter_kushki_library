@@ -75,6 +75,8 @@ public class FlutterKushkiLibraryPlugin: FlutterPlugin, MethodCallHandler {
           response = kushki.requestSubscriptionToken(card)
           code = "SUCCESS"
         } catch (e: KushkiException) {
+          println("---------------error message")
+          println(e.message)
           result.error(e.message, e.toString(), e.printStackTrace())
         }
       }
