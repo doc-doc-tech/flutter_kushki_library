@@ -15,7 +15,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   String _platformVersion = 'Unknown';
-  String _responseCode = 'Unknown';
+  String _cardToken = 'Unknown';
 
   @override
   void initState() {
@@ -26,11 +26,21 @@ class _MyAppState extends State<MyApp> {
   // Platform messages are asynchronous, so we initialize in an async method.
   Future<void> initPlatformState() async {
     String platformVersion;
-    dynamic response;
+    KushkiResponse response;
     // Platform messages may fail, so we use a try/catch PlatformException.
     try {
       platformVersion = await FlutterKushkiLibrary.platformVersion;
-      response = await FlutterKushkiLibrary.requestSubscriptionToken();
+      KushkiCard card = KushkiCard();
+      card.name = 'Aagtje Blokland';
+      card.number = '377815539842437';
+      card.cvv = '267';
+      card.expiryMonth = '12';
+      card.expiryYear = '21';
+      response = await FlutterKushkiLibrary.requestSubscriptionToken(
+        null,
+        card,
+        currency: KushkiCurrency.COP
+      );
       print('response: $response');
     } on PlatformException {
       print('error');
@@ -45,7 +55,7 @@ class _MyAppState extends State<MyApp> {
     setState(() {
       _platformVersion = platformVersion;
       try {
-        _responseCode = response?.code ?? 'aja unknown';
+        _cardToken = response?.token ?? 'again unknown';
       } catch(e) {
         print('error 2');
         print('error 2: $e');
@@ -58,10 +68,10 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('Plugin example app'),
+          title: const Text('Kushki Library Plugin'),
         ),
         body: Center(
-          child: Text('Running on: $_platformVersion\n responseCode: $_responseCode'),
+          child: Text('Running on: $_platformVersion\n token: $_cardToken'),
         ),
       ),
     );
