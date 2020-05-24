@@ -41,16 +41,23 @@ public class FlutterKushkiLibraryPlugin: FlutterPlugin, MethodCallHandler {
     }
   }
 
+  //private var kushki: Kushki?
+
   override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: Result) {
     if (call.method == "getPlatformVersion") {
       result.success("Android ${android.os.Build.VERSION.RELEASE}")
-    } else if (call.method == "requestSubscriptionToken") {
+    } else if (call.method == "initKuhski") {
       val publicMerchantId: String? = call.argument<String>("publicMerchantId")
+      val currency: String = call.argument<String>("currency") ?: "USD"
+      val environment: String = call.argument<String>("environment") ?: "TESTING"
+    } else if (call.method == "requestSubscriptionToken") {
       val name: String? = call.argument<String>("name")
       val number: String? = call.argument<String>("number")
       val cvv: String? = call.argument<String>("cvv")
       val expiryMonth: String? = call.argument<String>("expiryMonth")
       val expiryYear: String? = call.argument<String>("expiryYear")
+
+      val publicMerchantId: String? = call.argument<String>("publicMerchantId")
       val currency: String = call.argument<String>("currency") ?: "USD"
       val environment: String = call.argument<String>("environment") ?: "TESTING"
 
@@ -58,8 +65,8 @@ public class FlutterKushkiLibraryPlugin: FlutterPlugin, MethodCallHandler {
 
       env = when(environment){
         "CI"-> KushkiEnvironment.CI
-        "PRODUCTION"-> KushkiEnvironment.PRODUCTION
         "QA"-> KushkiEnvironment.QA
+        "PRODUCTION"-> KushkiEnvironment.PRODUCTION
         "PRODUCTION_REGIONAL"-> KushkiEnvironment.PRODUCTION_REGIONAL
         "STAGING"-> KushkiEnvironment.STAGING
         "UAT_REGIONAL"-> KushkiEnvironment.UAT_REGIONAL
