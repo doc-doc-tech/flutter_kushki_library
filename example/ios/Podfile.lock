@@ -2,10 +2,16 @@ PODS:
   - Flutter (1.0.0)
   - flutter_kushki_library (0.0.1):
     - Flutter
+    - Kushki (~> 2.2.1)
+  - Kushki (2.2.1)
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
   - flutter_kushki_library (from `.symlinks/plugins/flutter_kushki_library/ios`)
+
+SPEC REPOS:
+  trunk:
+    - Kushki
 
 EXTERNAL SOURCES:
   Flutter:
@@ -15,7 +21,8 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
-  flutter_kushki_library: 600c298e1f0d0df28811113849da84dc44644a26
+  flutter_kushki_library: 5db9688d25f61b00a2f64b7b310b3cc0f7938497
+  Kushki: cea16cfa5b25cf7dcc5d494fe4e5bb07392292e3
 
 PODFILE CHECKSUM: c34e2287a9ccaa606aeceab922830efb9a6ff69a
 
