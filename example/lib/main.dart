@@ -23,14 +23,11 @@ class _MyAppState extends State<MyApp> {
     initPlatformState();
   }
 
-  // Platform messages are asynchronous, so we initialize in an async method.
   Future<void> initPlatformState() async {
     String initResult;
     KushkiResponse response;
-    // Platform messages may fail, so we use a try/catch PlatformException.
     try {
-      final init = await FlutterKushkiLibrary.initKushki(
-          'a4bc5f4792e24bb58fe964f51d274d43', currency: KushkiCurrency.COP);
+      final init = await FlutterKushkiLibrary.initKushki('', currency: KushkiCurrency.COP);
       initResult = init.code == KushkiReponceCode.SUCCESS ? "SUCCESS" : "ERROR";
       KushkiCard card = KushkiCard();
       card.name = 'Aagtje Blokland';

@@ -1,3 +1,35 @@
 ## 0.0.1
 
-* TODO: Describe initial release.
+#### DONE
+
+##### MOBILE
+
+- requestSubscriptionToken().
+
+#### TODO
+
+##### MOBILE
+
+- requestToken()
+- getCardInfo()
+- requestCardAsyncToken()
+- getBankList()
+- requestTransferSubscriptionToken()
+- requestSecureValidation()
+- requestCashToken()
+- requestCashOutToken()
+- requestTransferToken()
+
+##### WEB
+- CAJITA
+- requestToken()
+- getCardInfo()
+- requestSubscriptionToken().
+- requestCardAsyncToken()
+- getBankList()
+- requestTransferSubscriptionToken()
+- requestSecureValidation()
+- requestCashToken()
+- requestCashOutToken()
+- requestTransferToken()
+

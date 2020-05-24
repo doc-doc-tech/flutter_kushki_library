@@ -15,11 +15,11 @@ class FlutterKushkiLibrary {
   static const MethodChannel _channel =
       const MethodChannel('flutter_kushki_library');
 
-  static Future<String> get platformVersion async {
-    final String version = await _channel.invokeMethod('getPlatformVersion');
-    return version;
-  }
-
+  /// Should be called before any other process.
+  /// This initializer requires your account public merchant id
+  /// currency default = USD
+  /// end (environment) default = TESTING
+  /// return KushkiResponse {code SUCCESS|ERROR, message String}
   static Future<KushkiResponse> initKushki(String publicMerchantId,
                                 {KushkiCurrency currency = KushkiCurrency.USD,
                                   KushkiEnv env = KushkiEnv.TESTING}) async {
@@ -35,6 +35,10 @@ class FlutterKushkiLibrary {
     return KushkiResponse.fromMap(mapCast);
   }
 
+  /// Should be used to return a subscription card token
+  /// Requieres initKushki to be already called
+  /// KushkiCard card {name, number, cvv, expiryMonth, expiryYear}
+  /// return KushkiResponse {code SUCCESS|ERROR, token String, message String}
   static Future<KushkiResponse> requestSubscriptionToken(KushkiCard card) async {
     final Map<dynamic, dynamic> map =
       await _channel.invokeMethod('requestSubscriptionToken', <String, dynamic>{
