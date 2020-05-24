@@ -41,29 +41,23 @@ public class FlutterKushkiLibraryPlugin: FlutterPlugin, MethodCallHandler {
     }
   }
 
-  //private var kushki: Kushki?
+  private var kushki: Kushki? = null
 
   override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: Result) {
     if (call.method == "getPlatformVersion") {
       result.success("Android ${android.os.Build.VERSION.RELEASE}")
-    } else if (call.method == "initKuhski") {
-      val publicMerchantId: String? = call.argument<String>("publicMerchantId")
-      val currency: String = call.argument<String>("currency") ?: "USD"
-      val environment: String = call.argument<String>("environment") ?: "TESTING"
-    } else if (call.method == "requestSubscriptionToken") {
-      val name: String? = call.argument<String>("name")
-      val number: String? = call.argument<String>("number")
-      val cvv: String? = call.argument<String>("cvv")
-      val expiryMonth: String? = call.argument<String>("expiryMonth")
-      val expiryYear: String? = call.argument<String>("expiryYear")
-
+    } else if (call.method == "initKushki") {
       val publicMerchantId: String? = call.argument<String>("publicMerchantId")
       val currency: String = call.argument<String>("currency") ?: "USD"
       val environment: String = call.argument<String>("environment") ?: "TESTING"
 
-      val env: KushkiEnvironment
+      if (publicMerchantId == null) {
+        val responseData = mapOf<String, Any?>("code" to "ERROR", "token" to "", "message" to "Missing public key")
+        result.success(responseData)
+        return
+      }
 
-      env = when(environment){
+      val env = when(environment){
         "CI"-> KushkiEnvironment.CI
         "QA"-> KushkiEnvironment.QA
         "PRODUCTION"-> KushkiEnvironment.PRODUCTION
@@ -73,14 +67,34 @@ public class FlutterKushkiLibraryPlugin: FlutterPlugin, MethodCallHandler {
         else -> KushkiEnvironment.TESTING
       }
 
-      if (name != null && number != null && cvv != null && expiryMonth != null && expiryYear != null && publicMerchantId != null) {
-        val kushki = Kushki(publicMerchantId, currency, env, false)
+      if (this.kushki == null) {
+        this.kushki = Kushki(publicMerchantId, currency, env, false)
+      }
+      val responseData = mapOf<String, Any?>("code" to "SUCCESS", "token" to "", "message" to "Kushki initialized")
+      result.success(responseData)
+
+    } else if (call.method == "requestSubscriptionToken") {
+      val name: String? = call.argument<String>("name")
+      val number: String? = call.argument<String>("number")
+      val cvv: String? = call.argument<String>("cvv")
+      val expiryMonth: String? = call.argument<String>("expiryMonth")
+      val expiryYear: String? = call.argument<String>("expiryYear")
+
+      if (kushki == null) {
+        val responseData = mapOf<String, Any?>("code" to "ERROR", "token" to "", "message" to "Kushki not initialized")
+        result.success(responseData)
+        return
+      }
+
+      if (name != null && number != null &&
+          cvv != null && expiryMonth != null && expiryYear != null) {
+
         val card = Card(name, number, cvv, expiryMonth, expiryYear)
         try {
           (object: AsyncTask<Void, Void, Transaction?>() {
 
             override fun doInBackground(vararg p0: Void): Transaction? {
-              return kushki.requestSubscriptionToken(card)
+              return kushki?.requestSubscriptionToken(card)
             }
 
             override fun onPostExecute(response: Transaction?) {

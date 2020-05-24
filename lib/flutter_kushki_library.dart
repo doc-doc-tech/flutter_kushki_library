@@ -20,20 +20,29 @@ class FlutterKushkiLibrary {
     return version;
   }
 
-  static Future<KushkiResponse> requestSubscriptionToken(String publicMerchantId,
-                                                KushkiCard card,
-                                                {KushkiCurrency currency = KushkiCurrency.USD,
-                                                KushkiEnv env = KushkiEnv.TESTING}) async {
+  static Future<KushkiResponse> initKushki(String publicMerchantId,
+                                {KushkiCurrency currency = KushkiCurrency.USD,
+                                  KushkiEnv env = KushkiEnv.TESTING}) async {
+    final Map<dynamic, dynamic> map =
+        await _channel.invokeMethod('initKushki', <String, dynamic>{
+      'publicMerchantId': publicMerchantId,
+      'currency': _kushkiCurrencyToString(currency),
+      'environment': _kushkiEnvToString(env),
+    });
+
+    final mapCast = map.cast<String, dynamic>();
+
+    return KushkiResponse.fromMap(mapCast);
+  }
+
+  static Future<KushkiResponse> requestSubscriptionToken(KushkiCard card) async {
     final Map<dynamic, dynamic> map =
       await _channel.invokeMethod('requestSubscriptionToken', <String, dynamic>{
-      'publicMerchantId': publicMerchantId,
       'name': card.name,
       'number': card.number,
       'cvv': card.cvv,
       'expiryMonth': card.expiryMonth,
-      'expiryYear': card.expiryYear,
-      'currency': _kushkiCurrencyToString(currency),
-      'environment': _kushkiEnvToString(env),
+      'expiryYear': card.expiryYear
     });
 
     final mapCast = map.cast<String, dynamic>();

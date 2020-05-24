@@ -25,26 +25,24 @@ class _MyAppState extends State<MyApp> {
 
   // Platform messages are asynchronous, so we initialize in an async method.
   Future<void> initPlatformState() async {
-    String platformVersion;
+    String initResult;
     KushkiResponse response;
     // Platform messages may fail, so we use a try/catch PlatformException.
     try {
-      platformVersion = await FlutterKushkiLibrary.platformVersion;
+      final init = await FlutterKushkiLibrary.initKushki(
+          'a4bc5f4792e24bb58fe964f51d274d43', currency: KushkiCurrency.COP);
+      initResult = init.code == KushkiReponceCode.SUCCESS ? "SUCCESS" : "ERROR";
       KushkiCard card = KushkiCard();
       card.name = 'Aagtje Blokland';
       card.number = '377815539842437';
       card.cvv = '267';
       card.expiryMonth = '12';
       card.expiryYear = '21';
-      response = await FlutterKushkiLibrary.requestSubscriptionToken(
-        null,
-        card,
-        currency: KushkiCurrency.COP
-      );
+      response = await FlutterKushkiLibrary.requestSubscriptionToken(card);
       print('response: $response');
     } on PlatformException {
       print('error');
-      platformVersion = 'Failed to get platform version.';
+      initResult = 'Failed to get platform version.';
     }
 
     // If the widget was removed from the tree while the asynchronous platform
@@ -53,7 +51,7 @@ class _MyAppState extends State<MyApp> {
     if (!mounted) return;
 
     setState(() {
-      _platformVersion = platformVersion;
+      _platformVersion = initResult;
       try {
         _cardToken = response?.token ?? 'again unknown';
       } catch(e) {
@@ -71,7 +69,7 @@ class _MyAppState extends State<MyApp> {
           title: const Text('Kushki Library Plugin'),
         ),
         body: Center(
-          child: Text('Running on: $_platformVersion\n token: $_cardToken'),
+          child: Text('Kushki init result: $_platformVersion\n token: $_cardToken'),
         ),
       ),
     );

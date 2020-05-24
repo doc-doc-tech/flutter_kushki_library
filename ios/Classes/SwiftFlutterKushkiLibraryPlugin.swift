@@ -16,18 +16,26 @@ public class SwiftFlutterKushkiLibraryPlugin: NSObject, FlutterPlugin {
         if call.method == "getPlatformVersion" {
             let platformVersion = UIDevice.current.systemVersion
             result("iOS " + platformVersion)
-        } else if call.method == "initKuhski" {
+        } else if call.method == "initKushki" {
             guard let args = call.arguments as? [String: Any] else {
                 let response = self.createResponse(code: "ERROR",
                                                    message: "There are no arguments")
                 result(response)
                 return
             }
-            let publicMerchantId = args["publicMerchantId"] as! String
-            let env = args["environment"] as! String
-            let currency = args["currency"] as! String
+            let publicMerchantId = args["publicMerchantId"] as? String
+            let env = args["environment"] as? String ?? "TESTING"
+            let currency = args["currency"] as? String ?? "USD"
             let kushkiEnv = self.getKushkiEnv(env: env)
-            self.initKushki(publicKey: publicMerchantId,
+            
+            guard let publicKey = publicMerchantId else {
+                let response = self.createResponse(code: "ERROR",
+                                                   message: "Missing public key")
+                result(response)
+                return
+            }
+            
+            self.initKushki(publicKey: publicKey,
                             currency: currency, env: kushkiEnv)
             let response = self.createResponse(code: "SUCCESS",
                                                message: "Kushki initialized")
