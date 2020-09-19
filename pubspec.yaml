@@ -12,6 +12,11 @@ dependencies:
   flutter:
     sdk: flutter
 
+  js: ^0.6.2
+
+  flutter_web_plugins:
+    sdk: flutter
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -32,6 +37,9 @@ flutter:
         pluginClass: FlutterKushkiLibraryPlugin
       ios:
         pluginClass: FlutterKushkiLibraryPlugin
+      web:
+        pluginClass: FlutterKushkiLibraryWeb
+        fileName: flutter_kushki_library_web.dart
 
   # To add assets to your plugin package, add an assets section, like this:
   # assets:
