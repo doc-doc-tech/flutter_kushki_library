@@ -1,6 +1,6 @@
 name: flutter_kushki_library
-description: A new flutter plugin project.
-version: 0.0.1
+description: This plugin has been created with the purpose of implementing the native kushki libraries.
+version: 0.0.2
 author:
 homepage:
 
@@ -11,8 +11,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
-  js: ^0.6.2
 
   flutter_web_plugins:
     sdk: flutter
