@@ -31,16 +31,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8d1ad7e8-7763-46c2-857c-2b1dd5a2a12c" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/lib/src/kushki_request.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/example/pubspec.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/flutter_kushki_library_web.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/flutter_kushki_library_web.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/Kushki.dart" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/js_utilities/kushki_provider.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/kushki_card.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/kushki_card.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -74,7 +65,7 @@
     <property name="dart.analysis.tool.window.force.activate" value="false" />
     <property name="dart.analysis.tool.window.visible" value="false" />
     <property name="io.flutter.reload.alreadyRun" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../docdoc_apps" />
     <property name="settings.editor.selected.configurable" value="flutter.settings" />
     <property name="show.migrate.to.gradle.popup" value="false" />
   </component>
@@ -117,30 +108,18 @@
     </option>
   </component>
   <component name="WindowStateProjectService">
-    <state width="1398" height="338" key="GridCell.Tab.0.bottom" timestamp="1600476623201">
-      <screen x="0" y="0" width="1440" height="900" />
-    </state>
-    <state width="1398" height="338" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" timestamp="1600476623201" />
-    <state width="1398" height="338" key="GridCell.Tab.0.center" timestamp="1600476623200">
-      <screen x="0" y="0" width="1440" height="900" />
-    </state>
-    <state width="1398" height="338" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" timestamp="1600476623200" />
-    <state width="1398" height="338" key="GridCell.Tab.0.left" timestamp="1600476623199">
-      <screen x="0" y="0" width="1440" height="900" />
-    </state>
-    <state width="1398" height="338" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" timestamp="1600476623199" />
-    <state width="1398" height="338" key="GridCell.Tab.0.right" timestamp="1600476623200">
-      <screen x="0" y="0" width="1440" height="900" />
-    </state>
-    <state width="1398" height="338" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1600476623200" />
-    <state x="221" y="89" key="SettingsEditor" timestamp="1600463155301">
-      <screen x="0" y="0" width="1440" height="900" />
-    </state>
-    <state x="221" y="89" key="SettingsEditor/0.0.1440.900@0.0.1440.900" timestamp="1600463155301" />
-    <state x="385" y="112" width="670" height="676" key="search.everywhere.popup" timestamp="1600463147257">
-      <screen x="0" y="0" width="1440" height="900" />
-    </state>
-    <state x="385" y="112" width="670" height="676" key="search.everywhere.popup/0.0.1440.900@0.0.1440.900" timestamp="1600463147257" />
+    <state width="1398" height="338" key="GridCell.Tab.0.bottom" />
+    <state width="1398" height="338" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" />
+    <state width="1398" height="338" key="GridCell.Tab.0.center" />
+    <state width="1398" height="338" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" />
+    <state width="1398" height="338" key="GridCell.Tab.0.left" />
+    <state width="1398" height="338" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" />
+    <state width="1398" height="338" key="GridCell.Tab.0.right" />
+    <state width="1398" height="338" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" />
+    <state x="221" y="89" key="SettingsEditor" />
+    <state x="221" y="89" key="SettingsEditor/0.0.1440.900@0.0.1440.900" />
+    <state x="385" y="112" width="670" height="676" key="search.everywhere.popup" />
+    <state x="385" y="112" width="670" height="676" key="search.everywhere.popup/0.0.1440.900@0.0.1440.900" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

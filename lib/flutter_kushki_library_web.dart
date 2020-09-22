@@ -97,7 +97,7 @@ class FlutterKushkiLibraryWeb {
   Future<Map<String,dynamic>> requestSubscriptionToken(String name, String number, String cvc, String expiryMonth, String expiryYear)async{
     final completer = Completer<Map<String, dynamic>>();
     context['callback'] = allowInterop((JsObject event){
-      final response = {'code': event['code'] ?? KushkiReponceCode.SUCCESS, 'token': event['token'], 'message': event['message']};
+      final response = {'code': event['code'] ?? 'SUCCESS', 'token': event['token'], 'message': event['message']};
       print(response['token']);
       completer.complete(response);
     });
@@ -107,7 +107,7 @@ class FlutterKushkiLibraryWeb {
       final domain = JsObject.jsify(JsKushkiTokenRequest(amount: '0', currency: this.currency, card: card).toMap());
       this.kushki.callMethod('requestToken', [domain, context['callback']]);
     }else{
-      completer.complete({'code': KushkiReponceCode.ERROR, 'token': '', 'message': 'INCOMPLETE_DATA'});
+      completer.complete({'code': 'ERROR', 'token': '', 'message': 'INCOMPLETE_DATA'});
     }
     return completer.future;
   }
