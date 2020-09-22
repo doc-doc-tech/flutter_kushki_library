@@ -50,8 +50,8 @@ class FlutterKushkiLibraryWeb {
         final publicMerchantId = call.arguments['publicMerchantId'];
         this.currency = call.arguments['currency'] ?? 'USD';
         this.isTesting = env == 'TESTING';
-        initKushki(publicMerchantId);
-        return {"code" : "SUCCESS", "token" : "123", "message" : "Kushki initialized"};
+        final response = initKushki(publicMerchantId);
+        return response;
         break;
       case 'requestSubscriptionToken':
         final name = call.arguments['name'];
@@ -81,12 +81,13 @@ class FlutterKushkiLibraryWeb {
   /// currency default = USD
   /// env (environment) default = TESTING
   /// return KushkiResponse {code SUCCESS|ERROR, message String}
-  void initKushki(String publicMerchantId){
+  Map<String,dynamic> initKushki(String publicMerchantId){
     try {
       final params = JsObject.jsify({'merchantId': publicMerchantId, 'inTestEnvironment': this.isTesting});
       this.kushki = JsObject(context['Kushki'], [params]);
+      return {"code" : "SUCCESS", "token" : "", "message" : "Kushki initialized"};
     } catch (e) {
-      print(e);
+      return {'code': 'ERROR', 'token': '', 'message': 'Kushki initialize error'};
     }
   }
 
@@ -104,10 +105,10 @@ class FlutterKushkiLibraryWeb {
 
     if (name != null && number != null && cvc != null && expiryMonth != null && expiryYear != null) {
       final card = JsKushkiCard(name: name, number: number, cvc: cvc, expiryMonth: expiryMonth, expiryYear: expiryYear);
-      final domain = JsObject.jsify(JsKushkiTokenRequest(amount: '0', currency: this.currency, card: card).toMap());
-      this.kushki.callMethod('requestToken', [domain, context['callback']]);
+      final domain = JsObject.jsify(JsKushkiTokenRequest(currency: this.currency, card: card).toMap());
+      this.kushki.callMethod('requestSubscriptionToken', [domain, context['callback']]);
     }else{
-      completer.complete({'code': 'ERROR', 'token': '', 'message': 'INCOMPLETE_DATA'});
+      completer.complete({'code': 'ERROR', 'token': '', 'message': 'Incomplete data'});
     }
     return completer.future;
   }
