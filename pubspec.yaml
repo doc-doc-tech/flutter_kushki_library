@@ -1,6 +1,6 @@
 name: flutter_kushki_library
 description: This plugin has been created with the purpose of implementing the native kushki libraries
-version: 0.0.2
+version: 0.0.3
 homepage: https://github.com/sart1991/flutter_kushki_library
 
 environment:
@@ -9,6 +9,9 @@ environment:
 
 dependencies:
   flutter:
+    sdk: flutter
+
+  flutter_web_plugins:
     sdk: flutter
 
 dev_dependencies:
@@ -31,6 +34,9 @@ flutter:
         pluginClass: FlutterKushkiLibraryPlugin
       ios:
         pluginClass: FlutterKushkiLibraryPlugin
+      web:
+        pluginClass: FlutterKushkiLibraryWeb
+        fileName: flutter_kushki_library_web.dart
 
   # To add assets to your plugin package, add an assets section, like this:
   # assets:

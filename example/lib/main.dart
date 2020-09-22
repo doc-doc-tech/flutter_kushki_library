@@ -27,7 +27,7 @@ class _MyAppState extends State<MyApp> {
     String initResult;
     KushkiResponse response;
     try {
-      final init = await FlutterKushkiLibrary.initKushki('', currency: KushkiCurrency.COP);
+      final init = await FlutterKushkiLibrary.initKushki('merchant-id', currency: KushkiCurrency.COP);
       initResult = init.code == KushkiReponceCode.SUCCESS ? "SUCCESS" : "ERROR";
       KushkiCard card = KushkiCard();
       card.name = 'Aagtje Blokland';
