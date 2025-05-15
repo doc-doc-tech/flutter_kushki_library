@@ -18,9 +18,9 @@ import 'src/kushki_response.dart';
 
 /// A web implementation of the FlutterKushkiLibrary plugin.
 class FlutterKushkiLibraryWeb {
-  String currency;
-  bool isTesting;
-  JsObject kushki;
+  late String currency;
+  late bool isTesting;
+  late JsObject kushki;
 
   static void registerWith(Registrar registrar) {
     final MethodChannel channel = MethodChannel(
