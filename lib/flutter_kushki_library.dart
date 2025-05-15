@@ -21,8 +21,8 @@ class FlutterKushkiLibrary {
   /// end (environment) default = TESTING
   /// return KushkiResponse {code SUCCESS|ERROR, message String}
   static Future<KushkiResponse> initKushki(String publicMerchantId,
-                                {KushkiCurrency currency = KushkiCurrency.USD,
-                                  KushkiEnv env = KushkiEnv.TESTING}) async {
+      {KushkiCurrency currency = KushkiCurrency.USD,
+      KushkiEnv env = KushkiEnv.TESTING}) async {
     final Map<dynamic, dynamic> map =
         await _channel.invokeMethod('initKushki', <String, dynamic>{
       'publicMerchantId': publicMerchantId,
@@ -39,9 +39,10 @@ class FlutterKushkiLibrary {
   /// Requieres initKushki to be already called
   /// KushkiCard card {name, number, cvv, expiryMonth, expiryYear}
   /// return KushkiResponse {code SUCCESS|ERROR, token String, message String}
-  static Future<KushkiResponse> requestSubscriptionToken(KushkiCard card) async {
-    final Map<dynamic, dynamic> map =
-      await _channel.invokeMethod('requestSubscriptionToken', <String, dynamic>{
+  static Future<KushkiResponse> requestSubscriptionToken(
+      KushkiCard card) async {
+    final Map<dynamic, dynamic> map = await _channel
+        .invokeMethod('requestSubscriptionToken', <String, dynamic>{
       'name': card.name,
       'number': card.number,
       'cvv': card.cvv,
@@ -55,7 +56,7 @@ class FlutterKushkiLibrary {
   }
 
   static String _kushkiEnvToString(KushkiEnv env) {
-    switch(env) {
+    switch (env) {
       case KushkiEnv.CI:
         return 'CI';
       case KushkiEnv.QA:
@@ -75,7 +76,7 @@ class FlutterKushkiLibrary {
   }
 
   static String _kushkiCurrencyToString(KushkiCurrency currency) {
-    switch(currency) {
+    switch (currency) {
       case KushkiCurrency.USD:
         return 'USD';
       case KushkiCurrency.COP:
@@ -89,6 +90,4 @@ class FlutterKushkiLibrary {
     }
     return '';
   }
-
 }
-

@@ -7,7 +7,6 @@ import 'dart:html' as html;
 import 'dart:js';
 //import 'package:js/js.dart';
 
-
 import 'package:flutter/services.dart';
 import 'package:flutter_kushki_library/src/kushki_request.dart';
 //import 'package:flutter_kushki_library/src/kushki.dart';
@@ -59,13 +58,15 @@ class FlutterKushkiLibraryWeb {
         final cvc = call.arguments['cvv'];
         final expiryMonth = call.arguments['expiryMonth'];
         final expiryYear = call.arguments['expiryYear'];
-        final response = await this.requestSubscriptionToken(name, number, cvc, expiryMonth, expiryYear);
+        final response = await this.requestSubscriptionToken(
+            name, number, cvc, expiryMonth, expiryYear);
         return response;
         break;
       default:
         throw PlatformException(
           code: 'Unimplemented',
-          details: 'flutter_kushki_library for web doesn\'t implement \'${call.method}\'',
+          details:
+              'flutter_kushki_library for web doesn\'t implement \'${call.method}\'',
         );
     }
   }
@@ -81,13 +82,20 @@ class FlutterKushkiLibraryWeb {
   /// currency default = USD
   /// env (environment) default = TESTING
   /// return KushkiResponse {code SUCCESS|ERROR, message String}
-  Map<String,dynamic> initKushki(String publicMerchantId){
+  Map<String, dynamic> initKushki(String publicMerchantId) {
     try {
-      final params = JsObject.jsify({'merchantId': publicMerchantId, 'inTestEnvironment': this.isTesting});
+      final params = JsObject.jsify({
+        'merchantId': publicMerchantId,
+        'inTestEnvironment': this.isTesting
+      });
       this.kushki = JsObject(context['Kushki'], [params]);
-      return {"code" : "SUCCESS", "token" : "", "message" : "Kushki initialized"};
+      return {"code": "SUCCESS", "token": "", "message": "Kushki initialized"};
     } catch (e) {
-      return {'code': 'ERROR', 'token': '', 'message': 'Kushki initialize error'};
+      return {
+        'code': 'ERROR',
+        'token': '',
+        'message': 'Kushki initialize error'
+      };
     }
   }
 
@@ -95,22 +103,42 @@ class FlutterKushkiLibraryWeb {
   /// Requieres initKushki to be already called
   /// KushkiCard card {name, number, cvv, expiryMonth, expiryYear}
   /// return KushkiResponse {code SUCCESS|ERROR, token String, message String}
-  Future<Map<String,dynamic>> requestSubscriptionToken(String name, String number, String cvc, String expiryMonth, String expiryYear)async{
+  Future<Map<String, dynamic>> requestSubscriptionToken(
+      String? name,
+      String? number,
+      String? cvc,
+      String? expiryMonth,
+      String? expiryYear) async {
     final completer = Completer<Map<String, dynamic>>();
-    context['callback'] = allowInterop((JsObject event){
-      final response = {'code': event['code'] ?? 'SUCCESS', 'token': event['token'], 'message': event['message']};
+    context['callback'] = allowInterop((JsObject event) {
+      final response = {
+        'code': event['code'] ?? 'SUCCESS',
+        'token': event['token'],
+        'message': event['message']
+      };
       print(response['token']);
       completer.complete(response);
     });
 
-    if (name != null && number != null && cvc != null && expiryMonth != null && expiryYear != null) {
-      final card = JsKushkiCard(name: name, number: number, cvc: cvc, expiryMonth: expiryMonth, expiryYear: expiryYear);
-      final domain = JsObject.jsify(JsKushkiTokenRequest(currency: this.currency, card: card).toMap());
-      this.kushki.callMethod('requestSubscriptionToken', [domain, context['callback']]);
-    }else{
-      completer.complete({'code': 'ERROR', 'token': '', 'message': 'Incomplete data'});
+    if (name != null &&
+        number != null &&
+        cvc != null &&
+        expiryMonth != null &&
+        expiryYear != null) {
+      final card = JsKushkiCard(
+          name: name,
+          number: number,
+          cvc: cvc,
+          expiryMonth: expiryMonth,
+          expiryYear: expiryYear);
+      final domain = JsObject.jsify(
+          JsKushkiTokenRequest(currency: this.currency, card: card).toMap());
+      this.kushki.callMethod(
+          'requestSubscriptionToken', [domain, context['callback']]);
+    } else {
+      completer.complete(
+          {'code': 'ERROR', 'token': '', 'message': 'Incomplete data'});
     }
     return completer.future;
   }
 }
-
